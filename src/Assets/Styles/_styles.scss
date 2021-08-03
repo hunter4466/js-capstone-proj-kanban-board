@@ -2,6 +2,7 @@
 @use "modules/boxes";
 @use "modules/buttons";
 @use "modules/inputs";
+@use "modules/animations";
 
 @font-face {
   font-family: 'Cocogoose1';
@@ -114,9 +115,19 @@
 }
 
 @mixin itemText {
-  margin-left: 5px;
+  margin-left: 25px;
   font-family: "Lato8", serif;
-  margin-top: 5px;
+  margin-top: 18px;
+  font-size: 20px;
+  color: white;
+}
+
+@mixin itemLogo {
+  margin-left: 25px;
+  font-family: "Lato8", serif;
+  margin-top: 0px;
+  font-size: 20px;
+  color: white;
 }
 
 @mixin notificationMsg {
@@ -124,6 +135,10 @@
   font-size: 15px;
   color: green;
   margin-left: 5px;
+}
+
+body {
+  user-select: none;
 }
 
 ::-webkit-scrollbar {
@@ -142,82 +157,24 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(45, 111, 182);
 }
-// ----------------------Tittle-------------------------------
-.tittle {
-  @include tittleFont(30px);
+// ------------------------- Header -------------------------------
 
-  position: relative;
-  color: white;
-  left: -1vw;
-  top: -20px;
-  padding-top: 10px;
-  padding-left: 2vw;
-  width: 100vw;
-  height: 50px;
-  background-color: rgb(105, 140, 206);
+.header {
+  @include boxes.styled-box(row);
+  background-color: #6c81c9;
+}
+.hd_item {
+  @include boxes.head-items();
+  @include itemText();
+}
+.hd_item:hover{
+  @include animations.winkKeyframes();
+}
+.hd_item_logo{
+  @include boxes.head-items();
+  @include itemLogo();
+}
+.logo_img{
+  width: 60px;
 }
 
-// ----------------------Leader Board----------------------
-.leader_board {
-  @include boxes.styled-box;
-
-  width: 25vw;
-}
-
-.top_leader {
-  @include boxes.flexh;
-}
-
-.leader_tittle {
-  @include boxes.tittle;
-  @include tittleFont;
-}
-
-.refresh_btn {
-  @include buttons.commonBtn;
-  @include buttonFont;
-}
-
-.recent_scores_ul {
-  @include boxes.innerBox;
-
-  width: 20vw;
-}
-
-.leader_item {
-  @include boxes.flexh;
-
-  list-style: none;
-}
-
-.leader_name {
-  @include itemText;
-}
-
-.leader_score {
-  @include itemText;
-}
-// ----------------------Add your score----------------------
-.add_score {
-  @include boxes.styled-box;
-
-  width: 25vw;
-}
-
-.add_tittle {
-  @include boxes.tittle;
-  @include tittleFont;
-}
-
-.form_input {
-  @include inputs.commonInput;
-}
-
-.messageTag {
-  @include notificationMsg;
-}
-
-.add_score_btn {
-  @include buttons.commonBtn;
-  @include buttonFont;
-}

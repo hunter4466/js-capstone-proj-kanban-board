@@ -2,9 +2,13 @@ import './Assets/Styles/_styles.scss';
 import './Assets/Styles/modules/_boxes.scss';
 import './Assets/Styles/modules/_buttons.scss';
 import './Assets/Styles/modules/_inputs.scss';
+import logo from './Assets/Images/Logos/logo.png'
 // import setScores from './Assets/Javascript/post';
 // import getScores from './Assets/Javascript/get';
 // import buildStructure from './Assets/Javascript/buildHTML';
+
+const logoImg = document.getElementById('logo_img')
+logoImg.src = logo;
 
 const api1 = 'https://api.thecatapi.com/v1/images/search?breed_ids=abys';
 const api2 = 'https://api.thecatapi.com/v1/images/search?breed_ids=aege';
