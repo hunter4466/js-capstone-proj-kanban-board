@@ -10,55 +10,28 @@ import logo from './Assets/Images/Logos/logo.png';
 const logoImg = document.getElementById('logo_img');
 logoImg.src = logo;
 
-const api1 = 'https://api.thecatapi.com/v1/images/search?breed_ids=abys';
-const api2 = 'https://api.thecatapi.com/v1/images/search?breed_ids=aege';
-const api3 = 'https://api.thecatapi.com/v1/images/search?breed_ids=abob';
-// const api4 = 'https://api.thecatapi.com/v1/images/search?breed_ids=amau';
-// const api5 = 'https://api.thecatapi.com/v1/images/search?breed_ids=amis';
-// const api6 = 'https://api.thecatapi.com/v1/images/search?breed_ids=bamb';
-// const api7 = 'https://api.thecatapi.com/v1/images/search?breed_ids=bslo';
-// const api8 = 'https://api.thecatapi.com/v1/images/search?breed_ids=cspa';
-// const api9 = 'https://api.thecatapi.com/v1/images/search?breed_ids=beng';
+const breedCats = ['abys', 'aege', 'abob', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
+const api = 'https://api.thecatapi.com/v1/images/search?breed_ids=';
 const fetchPics = () => {
-  const img = document.querySelector('.catsImg1');
-  fetch(api1)
-    .then((response) => response.json())
-    .then((json) => {
-      const nameSelector = document.querySelector('#name1');
-      nameSelector.innerText = json[0].breeds[0].name;
-      // iTag.classList.add('bi', 'bi-heart');
-      const imgTag = document.createElement('img');
-      imgTag.setAttribute('src', `${json[0].url}`);
-      imgTag.setAttribute('width', '200');
-      imgTag.setAttribute('height', '200');
-      img.append(imgTag);
-    });
-  const img2 = document.querySelector('.catsImg2');
-  fetch(api2)
-    .then((response) => response.json())
-    .then((json) => {
-      const pTag = document.createElement('p');
-      pTag.innerText = json[0].breeds[0].name;
-      const imgTag = document.createElement('img');
-      imgTag.setAttribute('src', `${json[0].url}`);
-      imgTag.setAttribute('width', '200');
-      imgTag.setAttribute('height', '200');
-      img2.append(imgTag);
-      img2.append(pTag);
-    });
-  const img3 = document.querySelector('.catsImg3');
-  fetch(api3)
-    .then((response) => response.json())
-    .then((json) => {
-      const pTag = document.createElement('p');
-      pTag.innerText = json[0].breeds[0].name;
-      const imgTag = document.createElement('img');
-      imgTag.setAttribute('src', `${json[0].url}`);
-      imgTag.setAttribute('width', '200');
-      imgTag.setAttribute('height', '200');
-      img3.append(imgTag);
-      img3.append(pTag);
-    });
+  const tempArray = [];
+  // const img = document.querySelector('.catsImg1');
+  breedCats.forEach((e) => {
+    fetch(`${api}${e}`)
+      .then((response) => response.json())
+      .then((json) => {
+        tempArray.push(json);
+      });
+  });
+  console.log(tempArray);
 };
 
 fetchPics();
+
+// const nameSelector = document.querySelector('#name1');
+// nameSelector.innerText = json[0].breeds[0].name;
+// iTag.classList.add('bi', 'bi-heart');
+// const imgTag = document.createElement('img');
+// imgTag.setAttribute('src', `${json[0].url}`);
+// imgTag.setAttribute('width', '200');
+// imgTag.setAttribute('height', '200');
+// img.append(imgTag);
