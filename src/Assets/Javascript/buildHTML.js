@@ -40,16 +40,52 @@ function htmlBuilder(obj) {
 }
 
 export default function buildStructure(array) {
-  const mainContainer = document.getElementById('recent_scores_ul');
-  const toBuildArray = [];
-  mainContainer.innerHTML = '';
-  for (let i = 0; i < array.length; i += 1) {
-    const liContainer = document.createElement('li');
-    const tempUserObj = document.createElement('p');
-    const tempScoreObj = document.createElement('p');
-    toBuildArray.push([mainContainer, liContainer, 'leader_item']);
-    toBuildArray.push([liContainer, tempUserObj, 'leader_name', array[i].user]);
-    toBuildArray.push([liContainer, tempScoreObj, 'leader_score', array[i].score]);
-  }
-  htmlBuilder(toBuildArray);
+  let finalStructure = [];
+
+const nameSelector = document.getElementById('class_container');
+
+for(let i = 0; i<9; i += 1){
+  let mainBoxDiv = document.createElement('div')
+  let catsImg = document.createElement('div')
+  let likeArea = document.createElement('div')
+  let catName = document.createElement('h5')
+  let likeHeart = document.createElement('i')
+  let commentBtn = document.createElement('button')
+  let popUpCointainer = document.createElement('div')
+  let modalDialog = document.createElement('div')
+  let modalContent = document.createElement('div')
+  let modalHeader = document.createElement('div')
+  let modalTitle = document.createElement('h5')
+  let btnClose = document.createElement('button')
+  let modalBody = document.createElement('div')
+  let modalFooter = document.createElement('div')
+  let secondaryBtn = document.createElement('button')
+  let primaryBtn = document.createElement('button')
+  commentBtn.setAttribute('data-bs-toggle','modal')
+  commentBtn.setAttribute('data-bs-target','#exampleModa')
+  popUpCointainer.setAttribute('tabindex','-1')
+  popUpCointainer.setAttribute('aria-labelledby','exampleModalLabel')
+  popUpCointainer.setAttribute('aria-hidden','truel')
+  btnClose.setAttribute('type','button')
+  btnClose.setAttribute('data-bs-dismiss','modal')
+  btnClose.setAttribute('aria-label','Close')
+  secondaryBtn.setAttribute('data-bs-dismiss','modal')
+  finalStructure.push([nameSelector,mainBoxDiv,'col'])
+  finalStructure.push([mainBoxDiv,catsImg,'catsImg1'])
+  finalStructure.push([mainBoxDiv,likeArea,'d-flex justify-content-center'])
+  finalStructure.push([likeArea,catName,null,null,'name1'])
+  finalStructure.push([likeArea,likeHeart,'bi bi-heart ms-4'])
+  finalStructure.push([mainBoxDiv,commentBtn,'btn btn-primary'])
+  finalStructure.push([mainBoxDiv,popUpCointainer,'modal fade',null,'exampleModal'])
+  finalStructure.push([popUpCointainer,modalDialog,'modal-dialog'])
+  finalStructure.push([modalDialog,modalContent,'modal-content'])
+  finalStructure.push([modalContent,modalHeader,'modal-header'])
+  finalStructure.push([modalHeader,modalTitle,'modal-title',null,'cat1title'])
+  finalStructure.push([modalHeader,btnClose,'btn-close'])
+  finalStructure.push([modalContent,modalBody,'modal-body'])
+  finalStructure.push([modalContent,modalFooter,'modal-footer'])
+  finalStructure.push([modalFooter,secondaryBtn,'btn btn-secondary','Close'])
+  finalStructure.push([modalFooter,primaryBtn,'btn btn-primary','Save changes'])
+}
+  htmlBuilder(finalStructure);
 }
