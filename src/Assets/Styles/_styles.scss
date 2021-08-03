@@ -1,0 +1,223 @@
+
+@use "modules/boxes";
+@use "modules/buttons";
+@use "modules/inputs";
+
+@font-face {
+  font-family: 'Cocogoose1';
+  src: url('../Fonts/Cocogoose_Pro_Italic-trial.ttf');
+}
+
+@font-face {
+  font-family: 'Cocogoose2';
+  src: url('../Fonts/Cocogoose_Pro_Light_Italic-trial.ttf');
+}
+
+@font-face {
+  font-family: 'Cocogoose3';
+  src: url('../Fonts/Cocogoose_Pro_Light-trial.ttf');
+}
+
+@font-face {
+  font-family: 'Cocogoose4';
+  src: url('../Fonts/Cocogoose_Pro_Semilight_Italic-trial.ttf');
+}
+
+@font-face {
+  font-family: 'Cocogoose5';
+  src: url('../Fonts/Cocogoose_Pro_Semilight-trial.ttf');
+}
+
+@font-face {
+  font-family: 'Cocogoose6';
+  src: url('../Fonts/Cocogoose_Pro_Thin_Italic-trial.ttf');
+}
+
+@font-face {
+  font-family: 'Cocogoose7';
+  src: url('../Fonts/Cocogoose_Pro_Thin-trial.ttf');
+}
+
+@font-face {
+  font-family: 'Cocogoose8';
+  src: url('../Fonts/Cocogoose_Pro_UltraLight_Italic-trial.ttf');
+}
+
+@font-face {
+  font-family: 'Cocogoose9';
+  src: url('../Fonts/Cocogoose_Pro_Ultralight-trial.ttf');
+}
+
+@font-face {
+  font-family: 'Cocogoose10';
+  src: url('../Fonts/Cocogoose_Pro-trial.ttf');
+}
+
+@font-face {
+  font-family: 'Lato1';
+  src: url('../Fonts/Lato-Black.ttf');
+}
+
+@font-face {
+  font-family: 'Lato2';
+  src: url('../Fonts/Lato-BlackItalic.ttf');
+}
+
+@font-face {
+  font-family: 'Lato3';
+  src: url('../Fonts/Lato-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Lato4';
+  src: url('../Fonts/Lato-BoldItalic.ttf');
+}
+
+@font-face {
+  font-family: 'Lato5';
+  src: url('../Fonts/Lato-Italic.ttf');
+}
+
+@font-face {
+  font-family: 'Lato6';
+  src: url('../Fonts/Lato-Light.ttf');
+}
+
+@font-face {
+  font-family: 'Lato7';
+  src: url('../Fonts/Lato-LightItalic.ttf');
+}
+
+@font-face {
+  font-family: 'Lato8';
+  src: url('../Fonts/Lato-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Lato9';
+  src: url('../Fonts/Lato-Thin.ttf');
+}
+
+@font-face {
+  font-family: 'Lato10';
+  src: url('../Fonts/Lato-ThinItalic.ttf');
+}
+
+@mixin tittleFont($size: 20px) {
+  font-family: "Lato1", serif;
+  font-size: $size;
+}
+
+@mixin buttonFont($size: 13px) {
+  font-family: "Lato8", serif;
+  font-size: $size;
+}
+
+@mixin itemText {
+  margin-left: 5px;
+  font-family: "Lato8", serif;
+  margin-top: 5px;
+}
+
+@mixin notificationMsg {
+  font-family: "Lato3", serif;
+  font-size: 15px;
+  color: green;
+  margin-left: 5px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(86, 133, 184);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(45, 111, 182);
+}
+// ----------------------Tittle-------------------------------
+.tittle {
+  @include tittleFont(30px);
+
+  position: relative;
+  color: white;
+  left: -1vw;
+  top: -20px;
+  padding-top: 10px;
+  padding-left: 2vw;
+  width: 100vw;
+  height: 50px;
+  background-color: rgb(105, 140, 206);
+}
+
+// ----------------------Leader Board----------------------
+.leader_board {
+  @include boxes.styled-box;
+
+  width: 25vw;
+}
+
+.top_leader {
+  @include boxes.flexh;
+}
+
+.leader_tittle {
+  @include boxes.tittle;
+  @include tittleFont;
+}
+
+.refresh_btn {
+  @include buttons.commonBtn;
+  @include buttonFont;
+}
+
+.recent_scores_ul {
+  @include boxes.innerBox;
+
+  width: 20vw;
+}
+
+.leader_item {
+  @include boxes.flexh;
+
+  list-style: none;
+}
+
+.leader_name {
+  @include itemText;
+}
+
+.leader_score {
+  @include itemText;
+}
+// ----------------------Add your score----------------------
+.add_score {
+  @include boxes.styled-box;
+
+  width: 25vw;
+}
+
+.add_tittle {
+  @include boxes.tittle;
+  @include tittleFont;
+}
+
+.form_input {
+  @include inputs.commonInput;
+}
+
+.messageTag {
+  @include notificationMsg;
+}
+
+.add_score_btn {
+  @include buttons.commonBtn;
+  @include buttonFont;
+}

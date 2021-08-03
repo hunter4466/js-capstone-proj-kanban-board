@@ -1,0 +1,18 @@
+@mixin commonBtn {
+  height: 22px;
+  width: 80px;
+  margin-left: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: transparent;
+  border-radius: 5px;
+  transition: ease-in-out, 0.1s;
+  background-color: rgb(29, 103, 182);
+  color: white;
+
+  &:hover {
+    color: rgb(29, 103, 182);
+    background-color: white;
+    border-color: rgb(29, 103, 182);
+  }
+}

@@ -1,0 +1,10 @@
+@mixin commonInput {
+  margin: 10px;
+  border-top-style: none;
+  border-right-style: none;
+  border-left-style: none;
+  border-bottom-style: solid;
+  border-width: 1px;
+  border-color: rgb(179, 179, 179);
+  outline: none;
+}

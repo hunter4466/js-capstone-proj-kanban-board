@@ -1,0 +1,55 @@
+@mixin tittle($fsize: 20px) {
+  font-size: $fsize;
+  margin: 0;
+  color: rgb(70, 70, 70);
+}
+
+@mixin flexv {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flexh {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin box {
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 5px;
+  width: fit-content;
+  height: fit-content;
+}
+
+@mixin styled-box ($flexd: column , $bcolor: transparent) {
+  display: flex;
+
+  @include box;
+
+  box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, 0.2);
+  flex-direction: $flexd;
+  border-color: $bcolor;
+  margin: 10px;
+  padding: 10px;
+  max-height: 80vh;
+}
+
+@mixin innerBox  ($flexd: column , $bcolor: rgb(182, 182, 182)) {
+  display: flex;
+
+  @include box;
+
+  flex-direction: $flexd;
+  border-color: $bcolor;
+  border-style: solid;
+  border-width: 1px;
+  margin: 10px;
+  padding: 10px;
+  max-height: 50vh;
+  overflow-y: scroll;
+}
+
+.main_container {
+  @include flexh;
+}
