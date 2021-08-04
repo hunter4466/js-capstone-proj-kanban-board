@@ -13,31 +13,22 @@ logoImg.src = logo;
 const breedCats = ['abys', 'aege', 'abob', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
 const api = 'https://api.thecatapi.com/v1/images/search?breed_ids=';
 
-let toBuildArray = []
-breedCats.forEach((e)=>{
-  const resultJSON = fetchPics(e);
-  resultJSON.then((data)=>{
-    toBuildArray.push(data)
-  })
+const toBuildArray = [];
 
-})
-console.log(toBuildArray.length)
-
-async function fetchPics(e){
-  return new Promise((resolve)=>{
-    // const img = document.querySelector('.catsImg1');
-      fetch(`${api}${e}`)
-        .then((response) => response.json())
-        .then(resolve);
-    });
+const fetchPics = async () => {
+  breedCats.forEach((e) => {
+    fetch(api + e)
+      .then((response) => response.json())
+      .then((json) => {
+        toBuildArray.push(json[0]);
+      });
+  });
 };
-
 fetchPics();
 
-buildStructure(toBuildArray);
+// setTimeout(buildStructure(toBuildArray), 1000);
 
-
-
+setTimeout(() => { buildStructure(toBuildArray); }, 1000);
 
 // const nameSelector = document.querySelector('#name1');
 // nameSelector.innerText = json[0].breeds[0].name;
