@@ -96,7 +96,7 @@ export function buildModals(array) {
     btnClose.setAttribute('data-bs-dismiss', 'modal');
     btnClose.setAttribute('aria-label', 'Close');
     modalPicture.setAttribute('src', `${array[i].url}`);
-
+//tryying
     finalStructure.push([mainBoxDiv, popUpCointainer, 'modal fade', null, `exampleModal${i + 1}`]);
     finalStructure.push([popUpCointainer, modalDialog, 'modal-dialog']);
     finalStructure.push([modalDialog, modalContent, 'modal-content']);
