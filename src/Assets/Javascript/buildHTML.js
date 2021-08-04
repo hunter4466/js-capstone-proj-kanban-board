@@ -43,6 +43,7 @@ export default function buildStructure(array) {
   const finalStructure = [];
   const nameSelector = document.getElementById('class_container');
   for (let i = 0; i < array.length; i += 1) {
+    // console.log(array[i].breeds[0].id);
     const mainBoxDiv = document.createElement('div');
     const catsDiv = document.createElement('div');
     const catsImg = document.createElement('img');
@@ -76,12 +77,12 @@ export default function buildStructure(array) {
     finalStructure.push([mainBoxDiv, likeArea, 'd-flex justify-content-center']);
     finalStructure.push([likeArea, catName, null, array[i].breeds[0].name]);
     finalStructure.push([likeArea, likeHeart, 'bi bi-heart ms-4']);
-    finalStructure.push([mainBoxDiv, commentBtn, 'btn btn-primary']);
+    finalStructure.push([mainBoxDiv, commentBtn, 'btn btn-primary', 'Comments']);
     finalStructure.push([mainBoxDiv, popUpCointainer, 'modal fade', null, `exampleModal${i + 1}`]);
     finalStructure.push([popUpCointainer, modalDialog, 'modal-dialog']);
     finalStructure.push([modalDialog, modalContent, 'modal-content']);
     finalStructure.push([modalContent, modalHeader, 'modal-header']);
-    finalStructure.push([modalHeader, modalTitle, 'modal-title', null, 'cat1title']);
+    finalStructure.push([modalHeader, modalTitle, 'modal-title', array[i].breeds[0].name, 'cat1title']);
     finalStructure.push([modalHeader, btnClose, 'btn-close']);
     finalStructure.push([modalContent, modalBody, 'modal-body']);
     finalStructure.push([modalContent, modalFooter, 'modal-footer']);
