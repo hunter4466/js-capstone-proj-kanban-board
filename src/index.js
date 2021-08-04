@@ -3,9 +3,11 @@ import './Assets/Styles/modules/_boxes.scss';
 import './Assets/Styles/modules/_buttons.scss';
 import './Assets/Styles/modules/_inputs.scss';
 import logo from './Assets/Images/Logos/logo.png';
-
 import getInfo from './Assets/Javascript/get';
-import buildStructure from './Assets/Javascript/buildHTML';
+import {buildStructure, buildModals} from './Assets/Javascript/buildHTML';
+
+const likeTest = document.getElementById('likeTest');
+const getTest = document.getElementById('getTest');
 
 const logoImg = document.getElementById('logo_img');
 logoImg.src = logo;
@@ -25,16 +27,17 @@ const fetchPics = () => {
 };
 fetchPics();
 
-setTimeout(() => { buildStructure(toBuildArray); }, 1000);
+setTimeout(() => { buildStructure(toBuildArray); buildModals(toBuildArray); }, 1000);
+
 setTimeout(() => { getInfo(toBuildArray); }, 1000);
 
 const iApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/likes';
 
-const test = async () => {
+const test = async (id) => {
   await fetch(iApi, {
     method: 'POST',
     body: JSON.stringify({
-      item_id: 'Breed#1',
+      item_id: id,
     }),
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
@@ -46,4 +49,25 @@ const test = async () => {
     });
 };
 
-test();
+const getLikes = async () => {
+  await fetch(iApi)
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+    });
+};
+
+
+
+
+
+
+likeTest.addEventListener('click',(event)=>{
+  test('#Breed2');
+})
+
+getTest.addEventListener('click',(event)=>{
+  getLikes();
+
+})
+
