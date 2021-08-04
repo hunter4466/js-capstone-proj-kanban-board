@@ -41,11 +41,11 @@ function htmlBuilder(obj) {
 
 export default function buildStructure(array) {
   const finalStructure = [];
-
   const nameSelector = document.getElementById('class_container');
   for (let i = 0; i < array.length; i += 1) {
     const mainBoxDiv = document.createElement('div');
-    const catsImg = document.createElement('div');
+    const catsDiv = document.createElement('div');
+    const catsImg = document.createElement('img');
     const likeArea = document.createElement('div');
     const catName = document.createElement('h5');
     const likeHeart = document.createElement('i');
@@ -61,7 +61,7 @@ export default function buildStructure(array) {
     const secondaryBtn = document.createElement('button');
     const primaryBtn = document.createElement('button');
     commentBtn.setAttribute('data-bs-toggle', 'modal');
-    commentBtn.setAttribute('data-bs-target', '#exampleModa');
+    commentBtn.setAttribute('data-bs-target', `#exampleModal${i + 1}`);
     popUpCointainer.setAttribute('tabindex', '-1');
     popUpCointainer.setAttribute('aria-labelledby', 'exampleModalLabel');
     popUpCointainer.setAttribute('aria-hidden', 'truel');
@@ -69,13 +69,15 @@ export default function buildStructure(array) {
     btnClose.setAttribute('data-bs-dismiss', 'modal');
     btnClose.setAttribute('aria-label', 'Close');
     secondaryBtn.setAttribute('data-bs-dismiss', 'modal');
+    catsImg.setAttribute('src', `${array[i].url}`);
     finalStructure.push([nameSelector, mainBoxDiv, 'col']);
-    finalStructure.push([mainBoxDiv, catsImg, 'catsImg1']);
+    finalStructure.push([mainBoxDiv, catsDiv, 'catsDiv']);
+    finalStructure.push([catsDiv, catsImg]);
     finalStructure.push([mainBoxDiv, likeArea, 'd-flex justify-content-center']);
-    finalStructure.push([likeArea, catName, null, null, 'name1']);
+    finalStructure.push([likeArea, catName, null, array[i].breeds[0].name]);
     finalStructure.push([likeArea, likeHeart, 'bi bi-heart ms-4']);
     finalStructure.push([mainBoxDiv, commentBtn, 'btn btn-primary']);
-    finalStructure.push([mainBoxDiv, popUpCointainer, 'modal fade', null, 'exampleModal']);
+    finalStructure.push([mainBoxDiv, popUpCointainer, 'modal fade', null, `exampleModal${i + 1}`]);
     finalStructure.push([popUpCointainer, modalDialog, 'modal-dialog']);
     finalStructure.push([modalDialog, modalContent, 'modal-content']);
     finalStructure.push([modalContent, modalHeader, 'modal-header']);

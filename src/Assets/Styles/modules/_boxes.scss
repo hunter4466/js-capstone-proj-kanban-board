@@ -29,6 +29,20 @@
   height: 90px;
 }
 
+@mixin styled-box_foot ($flexd: column , $bcolor: transparent) {
+  @include box;
+  display: flex;
+  position: fixed;
+  width: 100vw;
+  left: 0vw;
+  bottom:0vh;
+  flex-direction: $flexd;
+  border-color: $bcolor;
+  padding: 10px;
+  max-height: 80vh;
+  height: 90px;
+}
+
 @mixin head-items {
   margin: 20px;
   list-style: none;

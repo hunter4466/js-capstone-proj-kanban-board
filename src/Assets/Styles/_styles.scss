@@ -177,4 +177,26 @@ body {
 .logo_img{
   width: 60px;
 }
+// ----------------------------------- Content -------------------------
+.catsDiv{
+  width: 200px;
+  height: 200px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
 
+.catsDiv img{ 
+  height: 100%;
+}
+
+// ----------------------------------- Footer -------------------------
+
+.footer {
+  @include boxes.styled-box-foot(row);
+  background-color: #6c81c9;
+  font-family: "Lato8", serif;
+  padding-top: 30px;
+  padding-left: 30px;
+  font-size: 20px;
+  color: white;
+}
