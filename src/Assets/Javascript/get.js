@@ -1,8 +1,10 @@
+
 function getAll(iApi) {
   return new Promise((resolve) => {
     fetch(iApi)
       .then((response) => response.json())
       .then(resolve);
+
   });
 }
 

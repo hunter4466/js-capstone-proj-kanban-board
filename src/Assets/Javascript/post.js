@@ -1,4 +1,6 @@
+
 export async function postLike(iApi, id) {
+
   await fetch(iApi, {
     method: 'POST',
     body: JSON.stringify({
@@ -31,3 +33,4 @@ export async function postComment(iApi, id, user, comment) {
       console.log(json);
     });
 }
+

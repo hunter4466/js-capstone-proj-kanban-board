@@ -7,3 +7,4 @@ export default function fetchPics(api, array1, array2) {
       });
   });
 }
+
