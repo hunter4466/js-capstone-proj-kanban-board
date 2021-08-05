@@ -1,3 +1,8 @@
+import { postLike, postComment } from './post';
+import { storeInfo, retrieveInfo } from './localStorage';
+
+const involvementApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments';
+
 function htmlBuilder(obj) {
   for (let i = 0; i < obj.length; i += 1) {
     if (obj[i].length === 2) {
@@ -66,7 +71,6 @@ export function buildStructure(array) {
 }
 export function buildModals(array) {
   const finalStructure = [];
-  console.log(array);
   for (let i = 0; i < array.length; i += 1) {
     const mainBoxDiv = document.getElementById(`mainBoxDiv${i}`);
     const popUpCointainer = document.createElement('div');
@@ -77,7 +81,6 @@ export function buildModals(array) {
     const modalTitle = document.createElement('h5');
     const btnClose = document.createElement('button');
     const modalBody = document.createElement('div');
-    const primaryBtn = document.createElement('button');
     const div = document.createElement('div');
     const div2 = document.createElement('div');
     const div3 = document.createElement('div');
@@ -96,6 +99,10 @@ export function buildModals(array) {
     const commentInput = document.createElement('textarea');
     commentInput.setAttribute('placeholder', 'Your insights');
     data4.setAttribute('href', array[i].breeds[0].wikipedia_url);
+    const commentBtn = document.createElement('button');
+    commentBtn.addEventListener(('click'), () => {
+      postComment(involvementApi, array[i].breeds[0].id, nameInput.value, commentInput.value);
+    });
     popUpCointainer.setAttribute('tabindex', '-1');
     popUpCointainer.setAttribute('aria-labelledby', 'exampleModalLabel');
     popUpCointainer.setAttribute('aria-hidden', 'truel');
@@ -109,7 +116,7 @@ export function buildModals(array) {
     finalStructure.push([modalDialog, modalContent, 'modal-content']);
     finalStructure.push([modalContent, modalHeader, 'modal-header']);
     finalStructure.push([modalHeader, btnClose, 'btn-close']);
-    finalStructure.push([modalContent, modalBody, 'modal-body container']);
+    finalStructure.push([modalContent, modalBody, 'modal-body container text-center']);
     finalStructure.push([modalBody, modalPicture, 'modal-picture']);
     finalStructure.push([modalBody, modalTitle, 'modal-title', array[i].breeds[0].name]);
     finalStructure.push([modalBody, div, 'container']);
@@ -127,7 +134,7 @@ export function buildModals(array) {
     finalStructure.push([modalBody, div8, 'form-group']);
     finalStructure.push([div8, nameInput, 'form-control']);
     finalStructure.push([div8, commentInput, 'form-control']);
-    finalStructure.push([div8, primaryBtn, 'btn btn-primary', 'Comment']);
+    finalStructure.push([div8, commentBtn, 'btn btn-primary', 'Comment']);
   }
   htmlBuilder(finalStructure);
 }
