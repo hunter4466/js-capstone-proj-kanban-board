@@ -89,6 +89,12 @@ export function buildModals(array) {
     const div7 = document.createElement('div');
     const data3 = document.createElement('span');
     const data4 = document.createElement('a');
+    const div8 = document.createElement('div');
+    const commentTitle = document.createElement('h5');
+    const nameInput = document.createElement('input');
+    nameInput.setAttribute('placeholder', 'Your name');
+    const commentInput = document.createElement('textarea');
+    commentInput.setAttribute('placeholder', 'Your insights');
     data4.setAttribute('href', array[i].breeds[0].wikipedia_url);
     popUpCointainer.setAttribute('tabindex', '-1');
     popUpCointainer.setAttribute('aria-labelledby', 'exampleModalLabel');
@@ -117,8 +123,11 @@ export function buildModals(array) {
     finalStructure.push([div5, div7, 'col']);
     finalStructure.push([div6, data3, null, `Weight: ${array[i].breeds[0].weight.metric} Kg`]);
     finalStructure.push([div7, data4, null, 'Wikipedia']);
-
-    finalStructure.push([modalBody, primaryBtn, 'btn btn-primary', 'Comment']);
+    finalStructure.push([modalBody, commentTitle, null, 'Add a comment']);
+    finalStructure.push([modalBody, div8, 'form-group']);
+    finalStructure.push([div8, nameInput, 'form-control']);
+    finalStructure.push([div8, commentInput, 'form-control']);
+    finalStructure.push([div8, primaryBtn, 'btn btn-primary', 'Comment']);
   }
   htmlBuilder(finalStructure);
 }
