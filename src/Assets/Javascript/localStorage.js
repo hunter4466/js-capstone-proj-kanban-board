@@ -1,5 +1,4 @@
 function storageAvailable(type) {
-
   let storage;
   try {
     storage = window[type];
@@ -30,5 +29,4 @@ export function retrieveInfo(name) {
     return infoValue;
   }
   return false;
-
 }

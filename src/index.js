@@ -25,9 +25,14 @@ logoImg.src = logo;
 
 // ----------------------------Callbacks---------------------------
 let likesArray;
-setTimeout(() => { get(likesApi).then((val) => { likesArray = val; }); }, 2000);
+setTimeout(() => { get(likesApi).then((val) => { likesArray = val; }); }, 1000);
 fetchPics(api, breedCats, toBuildArray);
-setTimeout(() => {getComments(commentsApi, breedCats, commentsArray);}, 2000);
-setTimeout(() => { buildStructure(toBuildArray, likesArray); buildModals(toBuildArray, commentsArray); }, 4000);
+setTimeout(() => {
+  getComments(commentsApi, breedCats, commentsArray);
+}, 1000);
+setTimeout(() => {
+  buildStructure(toBuildArray, likesArray);
+  buildModals(toBuildArray, commentsArray);
+}, 2000);
 
 // ----------------------------Event Listeners---------------------------
