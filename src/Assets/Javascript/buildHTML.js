@@ -69,7 +69,7 @@ export function buildStructure(array, likesArray) {
 
     let likesCounter = 0;
     for(let x = 0;x<likesArray.length;x+=1) {
-      if(array[i].id === likesArray[x].item_id ){
+      if(array[i].breeds[0].id === likesArray[x].item_id ){
         likesCounter = likesArray[x].likes
       }
     };
@@ -78,9 +78,9 @@ export function buildStructure(array, likesArray) {
     likeHeart.addEventListener('click',(event)=>{
       event.preventDefault();
       let getLocalLikes = retrieveInfo('likesStorage')
-      if(!getLocalLikes[array[i].id]){
+      if(!getLocalLikes[array[i].breeds[0].id]){
         const likesApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/likes';
-        postLike(likesApi,array[i].id);
+        postLike(likesApi,array[i].breeds[0].id);
         likeHeart.className = 'bi bi-heart-fill ms-4'
         likeHeartState = true;
         let likesStorage = {}
@@ -92,7 +92,7 @@ export function buildStructure(array, likesArray) {
           likesStorage = retrieveInfo('likesStorage')
         }
         
-        likesStorage[array[i].id] = true;
+        likesStorage[array[i].breeds[0].id] = true;
         storeInfo('likesStorage',likesStorage)
         likesCount.innerHTML = parseInt(likesCount.id)+1+" likes"
       }
@@ -105,7 +105,7 @@ export function buildStructure(array, likesArray) {
     finalStructure.push([mainBoxDiv, likeArea, 'd-flex justify-content-center']);
     finalStructure.push([likeArea, catName, null, array[i].breeds[0].name]);
 
-    if(getLocalLikesPrev[array[i].id]){
+    if(getLocalLikesPrev[array[i].breeds[0].id]){
       finalStructure.push([likeArea, likeHeart, 'bi bi-heart-fill ms-4']);
       likeHeartState = true
     }else{
@@ -113,7 +113,7 @@ export function buildStructure(array, likesArray) {
     }
 
     finalStructure.push([mainBoxDiv, likesCount, 'likesCount',`${likesCounter} likes`,`${likesCounter}`]);
-    finalStructure.push([mainBoxDiv, commentBtn, 'btn btn-primary', 'Comments']); //don't move this
+    finalStructure.push([mainBoxDiv, commentBtn, 'btn', 'Comments']); //don't move this
 
 
   }

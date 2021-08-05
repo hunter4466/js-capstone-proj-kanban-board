@@ -195,7 +195,7 @@ body {
   padding: 30px;
   border-style: solid;
   border-width: 2px;
-  border-color: rgb(201, 201, 201);
+  border-color: transparent;
   border-radius: 10px;
   height: 400px;
   transition: ease-in-out, 0.5s;
@@ -204,7 +204,7 @@ body {
   margin-bottom: 100px;
 }
 .itemCat:hover {
-  border-color: rgb(76, 112, 202);
+  border-color: #6c81c9;
 }
 
 .catsDiv{
@@ -218,7 +218,12 @@ body {
 
   width: 100%;
 }
-
+.bi-heart-fill {
+  color: rgb(153, 0, 0);
+}
+.btn {
+  @include buttons.commonBtn;
+}
 // ----------------------------------- Modals -----------------------
 .modal-picture{
   width: 300px;
