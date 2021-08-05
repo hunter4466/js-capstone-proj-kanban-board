@@ -1,4 +1,3 @@
-
 import { postLike, postComment } from './post';
 import { storeInfo, retrieveInfo } from './localStorage';
 
@@ -48,13 +47,10 @@ function htmlBuilder(obj) {
 export function buildStructure(array, likesArray) {
   const finalStructure = [];
   const nameSelector = document.getElementById('class_container');
-
-  console.log(likesArray)
-  let getLocalLikesPrev = retrieveInfo('likesStorage')
+  const getLocalLikesPrev = retrieveInfo('likesStorage');
 
   for (let i = 0; i < array.length; i += 1) {
-    
-    const mainBoxDiv = document.createElement('div');  //don't move this
+    const mainBoxDiv = document.createElement('div'); // don't move this
 
     const catsDiv = document.createElement('div');
     const catsImg = document.createElement('img');
@@ -68,58 +64,55 @@ export function buildStructure(array, likesArray) {
     catsImg.setAttribute('src', `${array[i].url}`);
 
     let likesCounter = 0;
-    for(let x = 0;x<likesArray.length;x+=1) {
-      if(array[i].breeds[0].id === likesArray[x].item_id ){
-        likesCounter = likesArray[x].likes
+    for (let x = 0; x < likesArray.length; x += 1) {
+      if (array[i].breeds[0].id === likesArray[x].item_id) {
+        likesCounter = likesArray[x].likes;
       }
-    };
+    }
 
-    let likeHeartState = false
-    likeHeart.addEventListener('click',(event)=>{
+    let likeHeartState = false;
+    likeHeart.addEventListener('click', (event) => {
       event.preventDefault();
-      let getLocalLikes = retrieveInfo('likesStorage')
-      if(!getLocalLikes[array[i].breeds[0].id]){
+      const getLocalLikes = retrieveInfo('likesStorage');
+      if (!getLocalLikes[array[i].breeds[0].id]) {
         const likesApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/likes';
-        postLike(likesApi,array[i].breeds[0].id);
-        likeHeart.className = 'bi bi-heart-fill ms-4'
+        postLike(likesApi, array[i].breeds[0].id);
+        likeHeart.className = 'bi bi-heart-fill ms-4';
         likeHeartState = true;
-        let likesStorage = {}
-        if(localStorage.getItem('likesStorage')){
-          likesStorage = retrieveInfo('likesStorage')
-        }else{
-          let initValue = {'init':'initiated'}
-          storeInfo('likesStorage',initValue)
-          likesStorage = retrieveInfo('likesStorage')
+        let likesStorage = {};
+        if (localStorage.getItem('likesStorage')) {
+          likesStorage = retrieveInfo('likesStorage');
+        } else {
+          const initValue = { init: 'initiated' };
+          storeInfo('likesStorage', initValue);
+          likesStorage = retrieveInfo('likesStorage');
         }
-        
-        likesStorage[array[i].breeds[0].id] = true;
-        storeInfo('likesStorage',likesStorage)
-        likesCount.innerHTML = parseInt(likesCount.id)+1+" likes"
-      }
-    })
 
-    finalStructure.push([nameSelector, mainBoxDiv, 'itemCat',null,`mainBoxDiv${i}`]); //don't move this
+        likesStorage[array[i].breeds[0].id] = true;
+        storeInfo('likesStorage', likesStorage);
+        likesCount.innerHTML = `${parseInt(likesCount.id) + 1} likes`;
+      }
+    });
+
+    finalStructure.push([nameSelector, mainBoxDiv, 'itemCat', null, `mainBoxDiv${i}`]); // don't move this
 
     finalStructure.push([mainBoxDiv, catsDiv, 'catsDiv']);
     finalStructure.push([catsDiv, catsImg]);
     finalStructure.push([mainBoxDiv, likeArea, 'd-flex justify-content-center']);
     finalStructure.push([likeArea, catName, null, array[i].breeds[0].name]);
 
-    if(getLocalLikesPrev[array[i].breeds[0].id]){
+    if (getLocalLikesPrev[array[i].breeds[0].id]) {
       finalStructure.push([likeArea, likeHeart, 'bi bi-heart-fill ms-4']);
-      likeHeartState = true
-    }else{
+      likeHeartState = true;
+    } else {
       finalStructure.push([likeArea, likeHeart, 'bi bi-heart ms-4']);
     }
 
-    finalStructure.push([mainBoxDiv, likesCount, 'likesCount',`${likesCounter} likes`,`${likesCounter}`]);
-    finalStructure.push([mainBoxDiv, commentBtn, 'btn', 'Comments']); //don't move this
-
-
+    finalStructure.push([mainBoxDiv, likesCount, 'likesCount', `${likesCounter} likes`, `${likesCounter}`]);
+    finalStructure.push([mainBoxDiv, commentBtn, 'btn', 'Comments']); // don't move this
   }
   htmlBuilder(finalStructure);
 }
-
 
 export function buildModals(array) {
   const finalStructure = [];
@@ -155,6 +148,8 @@ export function buildModals(array) {
     commentBtn.addEventListener(('click'), () => {
       postComment(involvementApi, array[i].breeds[0].id, nameInput.value, commentInput.value);
     });
+    const commentTitle2 = document.createElement('h5');
+    const div9 = document.createElement('div');
     popUpCointainer.setAttribute('tabindex', '-1');
     popUpCointainer.setAttribute('aria-labelledby', 'exampleModalLabel');
     popUpCointainer.setAttribute('aria-hidden', 'truel');
@@ -163,7 +158,6 @@ export function buildModals(array) {
     btnClose.setAttribute('aria-label', 'Close');
 
     modalPicture.setAttribute('src', array[i].url);
-
 
     finalStructure.push([mainBoxDiv, popUpCointainer, 'modal fade', null, `exampleModal${i + 1}`]);
     finalStructure.push([popUpCointainer, modalDialog, 'modal-dialog']);
@@ -184,6 +178,8 @@ export function buildModals(array) {
     finalStructure.push([div5, div7, 'col']);
     finalStructure.push([div6, data3, null, `Weight: ${array[i].breeds[0].weight.metric} Kg`]);
     finalStructure.push([div7, data4, null, 'Wikipedia']);
+    finalStructure.push([modalBody, commentTitle2, null, 'Comments']);
+    finalStructure.push([modalBody, div9]);
     finalStructure.push([modalBody, commentTitle, null, 'Add a comment']);
     finalStructure.push([modalBody, div8, 'form-group']);
     finalStructure.push([div8, nameInput, 'form-control']);

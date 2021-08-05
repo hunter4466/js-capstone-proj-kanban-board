@@ -1,6 +1,4 @@
-
 // ----------------------------Imports---------------------------
-
 
 import './Assets/Styles/_styles.scss';
 import './Assets/Styles/modules/_boxes.scss';
@@ -10,11 +8,9 @@ import logo from './Assets/Images/Logos/logo.png';
 
 import fetchPics from './Assets/Javascript/fetch';
 import { get } from './Assets/Javascript/get';
-import { postLike } from './Assets/Javascript/post';
 import { buildStructure, buildModals } from './Assets/Javascript/buildHTML';
 
 // ----------------------------Variables---------------------------
-
 
 const logoImg = document.getElementById('logo_img');
 const breedCats = ['abys', 'aege', 'abob', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
@@ -34,4 +30,3 @@ fetchPics(api, breedCats, toBuildArray);
 setTimeout(() => { buildStructure(toBuildArray, likesArray); buildModals(toBuildArray); }, 2000);
 
 // ----------------------------Event Listeners---------------------------
-
