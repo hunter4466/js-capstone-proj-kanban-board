@@ -62,14 +62,12 @@ export function buildStructure(array, likesArray) {
     commentBtn.setAttribute('data-bs-toggle', 'modal');
     commentBtn.setAttribute('data-bs-target', `#exampleModal${i + 1}`);
     catsImg.setAttribute('src', `${array[i].url}`);
-
     let likesCounter = 0;
     for (let x = 0; x < likesArray.length; x += 1) {
       if (array[i].breeds[0].id === likesArray[x].item_id) {
         likesCounter = likesArray[x].likes;
       }
     }
-
     let likeHeartState = false;
     likeHeart.addEventListener('click', (event) => {
       event.preventDefault();
@@ -114,7 +112,7 @@ export function buildStructure(array, likesArray) {
   htmlBuilder(finalStructure);
 }
 
-export function buildModals(array) {
+export function buildModals(array, commentsArray) {
   const finalStructure = [];
   for (let i = 0; i < array.length; i += 1) {
     const mainBoxDiv = document.getElementById(`mainBoxDiv${i}`);
@@ -156,7 +154,6 @@ export function buildModals(array) {
     btnClose.setAttribute('type', 'button');
     btnClose.setAttribute('data-bs-dismiss', 'modal');
     btnClose.setAttribute('aria-label', 'Close');
-
     modalPicture.setAttribute('src', array[i].url);
 
     finalStructure.push([mainBoxDiv, popUpCointainer, 'modal fade', null, `exampleModal${i + 1}`]);
@@ -178,7 +175,22 @@ export function buildModals(array) {
     finalStructure.push([div5, div7, 'col']);
     finalStructure.push([div6, data3, null, `Weight: ${array[i].breeds[0].weight.metric} Kg`]);
     finalStructure.push([div7, data4, null, 'Wikipedia']);
-    finalStructure.push([modalBody, commentTitle2, null, 'Comments']);
+    let c = 0;
+    for (let x = 0; x < commentsArray.length; x += 1) {
+      if (array[i].breeds[0].id === commentsArray[x].id) {
+        for (let y = 0; y < commentsArray[x].value.length; y += 1) {
+          c += 1;
+          const commentContainer = document.createElement('div');
+          const commentValue = document.createElement('p');
+          finalStructure.push([div9, commentContainer]);
+          finalStructure.push([commentContainer, commentValue, null,
+            `${commentsArray[x].value[y].creation_date
+            } ${commentsArray[x].value[y].username
+            }: ${commentsArray[x].value[y].comment}`]);
+        }
+      }
+    }
+    finalStructure.push([modalBody, commentTitle2, null, `Comment (${c})`]);
     finalStructure.push([modalBody, div9]);
     finalStructure.push([modalBody, commentTitle, null, 'Add a comment']);
     finalStructure.push([modalBody, div8, 'form-group']);
