@@ -1,5 +1,7 @@
 import { postLike, postComment } from './post';
 import { storeInfo, retrieveInfo } from './localStorage';
+import { getComments } from './get';
+import {countItems, countComments} from './itemsCounter'
 
 const involvementApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments';
 
@@ -44,7 +46,30 @@ function htmlBuilder(obj) {
   }
 }
 
+function populateComments(comArr,Arr,finStr,parent,index){
+  let counter = 0
+  for (let x = 0; x < comArr.length; x += 1) {
+    if (Arr[index].breeds[0].id === comArr[x].id) {
+      counter = countComments(comArr[x].value)
+      for (let y = 0; y < comArr[x].value.length; y += 1) {
+       /*  counter += 1;*/
+        const commentContainer = document.createElement('div');
+        const commentValue = document.createElement('p');
+        finStr.push([parent, commentContainer]);
+        finStr.push([commentContainer, commentValue, null,
+          `${comArr[x].value[y].creation_date
+          } ${comArr[x].value[y].username
+          }: ${comArr[x].value[y].comment}`]);
+      }
+    }
+  }
+  return counter
+}
+
 export function buildStructure(array, likesArray) {
+  let count = countItems(array)
+  const itemLink = document.getElementById('linkText1')
+  itemLink.innerHTML = itemLink.innerHTML + ' ('+count+')'
   const finalStructure = [];
   const nameSelector = document.getElementById('class_container');
   const getLocalLikesPrev = retrieveInfo('likesStorage');
@@ -143,9 +168,32 @@ export function buildModals(array, commentsArray) {
     commentInput.setAttribute('placeholder', 'Your insights');
     data4.setAttribute('href', array[i].breeds[0].wikipedia_url);
     const commentBtn = document.createElement('button');
+
+
+
     commentBtn.addEventListener(('click'), () => {
+      let commentContainer = document.getElementById(`comContainertId${i}`) 
       postComment(involvementApi, array[i].breeds[0].id, nameInput.value, commentInput.value);
+      let finalInnerStructure = []
+      const commentsArray2 = [];
+      const breedCats = ['abys', 'aege', 'abob', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
+      const commentsApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments?item_id=';
+      setTimeout(() => {
+        getComments(commentsApi, breedCats, commentsArray2);
+      }, 500);
+      setTimeout(() => {
+      let nCount = populateComments(commentsArray2,array,finalInnerStructure,commentContainer,i);
+      console.log(finalInnerStructure)
+      let commentTitle = document.getElementById(`commentId${i}`)
+      commentTitle.innerHTML = `Comment (${nCount})`
+      commentContainer.innerHTML = ""
+      htmlBuilder(finalInnerStructure);
+      }, 1000);
+      nameInput.value = ""
+      commentInput.value = ""
+      
     });
+
     const commentTitle2 = document.createElement('h5');
     const div9 = document.createElement('div');
     popUpCointainer.setAttribute('tabindex', '-1');
@@ -175,23 +223,12 @@ export function buildModals(array, commentsArray) {
     finalStructure.push([div5, div7, 'col']);
     finalStructure.push([div6, data3, null, `Weight: ${array[i].breeds[0].weight.metric} Kg`]);
     finalStructure.push([div7, data4, null, 'Wikipedia']);
-    let c = 0;
-    for (let x = 0; x < commentsArray.length; x += 1) {
-      if (array[i].breeds[0].id === commentsArray[x].id) {
-        for (let y = 0; y < commentsArray[x].value.length; y += 1) {
-          c += 1;
-          const commentContainer = document.createElement('div');
-          const commentValue = document.createElement('p');
-          finalStructure.push([div9, commentContainer]);
-          finalStructure.push([commentContainer, commentValue, null,
-            `${commentsArray[x].value[y].creation_date
-            } ${commentsArray[x].value[y].username
-            }: ${commentsArray[x].value[y].comment}`]);
-        }
-      }
-    }
-    finalStructure.push([modalBody, commentTitle2, null, `Comment (${c})`]);
-    finalStructure.push([modalBody, div9]);
+    let c = populateComments(commentsArray,array,finalStructure,div9,i);
+   
+    
+    
+    finalStructure.push([modalBody, commentTitle2, null, `Comment (${c})`,`commentId${i}`]);
+    finalStructure.push([modalBody, div9, null,null,`comContainertId${i}`]);
     finalStructure.push([modalBody, commentTitle, null, 'Add a comment']);
     finalStructure.push([modalBody, div8, 'form-group']);
     finalStructure.push([div8, nameInput, 'form-control']);
