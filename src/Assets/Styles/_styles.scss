@@ -139,6 +139,9 @@
 
 body {
   user-select: none;
+  background-color: rgb(226, 226, 226);
+  padding-bottom: 200px;
+  height: fit-content;
 }
 
 ::-webkit-scrollbar {
@@ -178,16 +181,44 @@ body {
   width: 60px;
 }
 // ----------------------------------- Content -------------------------
+
+.mainBoxDivStyle{
+  position:relative;
+  width: 100vw;
+  height: fit-content;
+  padding-bottom: 150px;
+}
+.itemCat {
+  width: 250px;
+  float: left;
+  margin: 20px;
+  padding: 30px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(201, 201, 201);
+  border-radius: 10px;
+  height: 400px;
+  transition: ease-in-out, 0.5s;
+  background-color: white;
+  text-align: center;
+  margin-bottom: 100px;
+}
+.itemCat:hover {
+  border-color: rgb(76, 112, 202);
+}
+
 .catsDiv{
-  width: 200px;
+  width: 190px;
   height: 200px;
   overflow-y: hidden;
   overflow-x: hidden;
 }
 
 .catsDiv img{ 
-  height: 100%;
+
+  width: 100%;
 }
+
 // ----------------------------------- Modals -----------------------
 .modal-picture{
   width: 300px;

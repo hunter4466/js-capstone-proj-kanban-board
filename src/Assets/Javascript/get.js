@@ -1,10 +1,12 @@
-export default () => {
-  const btnSelector = document.querySelectorAll('button[data-bs-toggle]');
-  btnSelector.forEach((e) => {
-    e.addEventListener(('click'), () => {
-      console.log('hello');
-    });
+function getAll(iApi){
+  return new Promise((resolve) => {
+    fetch(iApi)
+    .then((response) => response.json())
+    .then(resolve);
   });
 };
 
-// e.getAttribute('data-bs-target')
+export async function get(param) {
+  const setVal = await getAll(param);
+  return setVal;
+}
