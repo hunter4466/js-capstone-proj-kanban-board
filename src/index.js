@@ -3,8 +3,7 @@ import './Assets/Styles/modules/_boxes.scss';
 import './Assets/Styles/modules/_buttons.scss';
 import './Assets/Styles/modules/_inputs.scss';
 import logo from './Assets/Images/Logos/logo.png';
-import getInfo from './Assets/Javascript/get';
-import {buildStructure, buildModals} from './Assets/Javascript/buildHTML';
+import { buildStructure, buildModals } from './Assets/Javascript/buildHTML';
 
 const likeTest = document.getElementById('likeTest');
 const getTest = document.getElementById('getTest');
@@ -28,8 +27,6 @@ const fetchPics = () => {
 fetchPics();
 
 setTimeout(() => { buildStructure(toBuildArray); buildModals(toBuildArray); }, 1000);
-
-setTimeout(() => { getInfo(toBuildArray); }, 1000);
 
 const iApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/likes';
 
@@ -57,17 +54,10 @@ const getLikes = async () => {
     });
 };
 
-
-
-
-
-
-likeTest.addEventListener('click',(event)=>{
+likeTest.addEventListener('click', () => {
   test('#Breed2');
-})
+});
 
-getTest.addEventListener('click',(event)=>{
+getTest.addEventListener('click', () => {
   getLikes();
-
-})
-
+});
