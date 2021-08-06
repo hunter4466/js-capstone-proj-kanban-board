@@ -2,28 +2,20 @@
  * @jest-environment jsdom
  */
 import simClearHtml from './__Mocks__/body';
-import countItems from '../itemsCounter';
-
-document.body.innerHTML = ` 
-    <ul class="header">
-      <li class="hd_item">
-        <img class="logo_img" id="logo_img" alt="logo" src="">
-      </li>
-      <li class="hd_item">
-        <a id='linkText1' alt="breed1">Cats</a>
-      </li>
-      <li class="hd_item">
-        <a alt="breed2">Cougars</a>
-      </li>
-      <li class="hd_item">
-        <a alt="breed3">Big cats</a>
-      </li>
-    </ul>
-  `;
+import {countItems} from '../itemsCounter';
 
 describe('Counters work good', () => {
   test('Items Counter works', () => {
-    const toBuildArray = document.querySelectorAll('.hd_item');
+      simClearHtml();
+    const toBuildArray = document.querySelectorAll('.hd_item')
     expect(countItems(toBuildArray)).toEqual(4);
   });
+  
+// here comest your test
+  test('Items Counter works', () => {
+    simClearHtml();
+  const toBuildArray = document.querySelectorAll('.hd_item')
+  expect(countItems(toBuildArray)).toEqual(4);
+});
+//here ends your test
 });
