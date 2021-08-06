@@ -129,8 +129,6 @@ export const buildStructure = (array, likesArray) => {
 };
 
 export const buildModals = (array, commentsArray) => {
-  
-  console.log('onbuildmodals',commentsArray)
   const finalStructure = [];
   for (let i = 0; i < array.length; i += 1) {
     const mainBoxDiv = document.getElementById(`mainBoxDiv${i}`);
@@ -171,7 +169,7 @@ export const buildModals = (array, commentsArray) => {
       const commentsApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/GTdCo4dMv7OdJ4VT5RJ0/comments?item_id=';
       setTimeout(() => {
         commentsArray2 = saveComments(commentsApi, breedCats);
-      }, 1000);
+      }, 1500);
       setTimeout(() => {
         const nCount = populateComments(commentsArray2,
           array,
@@ -182,7 +180,7 @@ export const buildModals = (array, commentsArray) => {
         commentTitle.innerHTML = `Comment (${nCount})`;
         commentContainer.innerHTML = '';
         htmlBuilder(finalInnerStructure);
-      }, 2000);
+      }, 2500);
       nameInput.value = '';
       commentInput.value = '';
     });

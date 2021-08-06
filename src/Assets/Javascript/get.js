@@ -21,9 +21,7 @@ function getAllComments(api, e) {
 
 async function getComments(param, e) {
   const setVal = await getAllComments(param, e);
-  console.log(setVal)
   return setVal;
- 
 }
 
 export function saveComments(api, array) {
@@ -31,7 +29,7 @@ export function saveComments(api, array) {
   let comment;
   array.forEach((element) => {
     comment = getComments(api, element);
-   comment.then(val =>result.push({ id: element, value: val }))
+    comment.then((val) => result.push({ id: element, value: val }));
   });
-  return result
+  return result;
 }
