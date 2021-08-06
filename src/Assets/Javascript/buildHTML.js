@@ -3,7 +3,7 @@ import { storeInfo, retrieveInfo } from './localStorage';
 import { saveComments } from './get';
 import { countItems, countComments } from './itemsCounter';
 
-const involvementApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments';
+const involvementApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/GTdCo4dMv7OdJ4VT5RJ0/comments';
 
 const htmlBuilder = (obj) => {
   for (let i = 0; i < obj.length; i += 1) {
@@ -95,7 +95,7 @@ export const buildStructure = (array, likesArray) => {
       event.preventDefault();
       const getLocalLikes = retrieveInfo('likesStorage');
       if (!getLocalLikes[array[i].breeds[0].id]) {
-        const likesApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/likes';
+        const likesApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/GTdCo4dMv7OdJ4VT5RJ0/likes';
         postLike(likesApi, array[i].breeds[0].id);
         likeHeart.className = 'bi bi-heart-fill ms-4';
         let likesStorage = {};
@@ -129,6 +129,8 @@ export const buildStructure = (array, likesArray) => {
 };
 
 export const buildModals = (array, commentsArray) => {
+  
+  console.log('onbuildmodals',commentsArray)
   const finalStructure = [];
   for (let i = 0; i < array.length; i += 1) {
     const mainBoxDiv = document.getElementById(`mainBoxDiv${i}`);
@@ -166,7 +168,7 @@ export const buildModals = (array, commentsArray) => {
       const finalInnerStructure = [];
       let commentsArray2 = [];
       const breedCats = ['abys', 'aege', 'abob', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
-      const commentsApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments?item_id=';
+      const commentsApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/GTdCo4dMv7OdJ4VT5RJ0/comments?item_id=';
       setTimeout(() => {
         commentsArray2 = saveComments(commentsApi, breedCats);
       }, 1000);
@@ -180,7 +182,7 @@ export const buildModals = (array, commentsArray) => {
         commentTitle.innerHTML = `Comment (${nCount})`;
         commentContainer.innerHTML = '';
         htmlBuilder(finalInnerStructure);
-      }, 1000);
+      }, 2000);
       nameInput.value = '';
       commentInput.value = '';
     });
