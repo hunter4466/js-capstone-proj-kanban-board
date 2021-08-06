@@ -1,6 +1,6 @@
 import { postLike, postComment } from './post';
 import { storeInfo, retrieveInfo } from './localStorage';
-import { getComments } from './get';
+import { saveComments } from './get';
 import { countItems, countComments } from './itemsCounter';
 
 const involvementApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments';
@@ -164,12 +164,12 @@ export const buildModals = (array, commentsArray) => {
       const commentContainer = document.getElementById(`comContainertId${i}`);
       postComment(involvementApi, array[i].breeds[0].id, nameInput.value, commentInput.value);
       const finalInnerStructure = [];
-      const commentsArray2 = [];
+      let commentsArray2 = [];
       const breedCats = ['abys', 'aege', 'abob', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
       const commentsApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments?item_id=';
-      setTimeout(async() => {
-        getComments(commentsApi, breedCats, commentsArray2);
-      }, 500);
+      setTimeout(() => {
+        commentsArray2 = saveComments(commentsApi, breedCats);
+      }, 1000);
       setTimeout(() => {
         const nCount = populateComments(commentsArray2,
           array,
