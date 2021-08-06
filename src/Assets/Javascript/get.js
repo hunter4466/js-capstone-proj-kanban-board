@@ -11,7 +11,7 @@ export async function get(param) {
   return setVal;
 }
 
-export function getComments(api, array1, array2) {
+export const getComments = (api, array1, array2) => {
   array1.forEach(async (e) => {
     await fetch(api + e)
       .then((response) => response.json())
@@ -19,4 +19,4 @@ export function getComments(api, array1, array2) {
         array2.push({ id: e, value: json });
       });
   });
-}
+};

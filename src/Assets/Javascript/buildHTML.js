@@ -5,7 +5,7 @@ import { countItems, countComments } from './itemsCounter';
 
 const involvementApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments';
 
-function htmlBuilder(obj) {
+const htmlBuilder = (obj) => {
   for (let i = 0; i < obj.length; i += 1) {
     if (obj[i].length === 2) {
       obj[i][0].appendChild(obj[i][1]);
@@ -44,9 +44,9 @@ function htmlBuilder(obj) {
       }
     }
   }
-}
+};
 
-function populateComments(comArr, Arr, finStr, parent, index) {
+const populateComments = (comArr, Arr, finStr, parent, index) => {
   let counter = 0;
   for (let x = 0; x < comArr.length; x += 1) {
     if (Arr[index].breeds[0].id === comArr[x].id) {
@@ -64,9 +64,9 @@ function populateComments(comArr, Arr, finStr, parent, index) {
     }
   }
   return counter;
-}
+};
 
-export function buildStructure(array, likesArray) {
+export const buildStructure = (array, likesArray) => {
   const count = countItems(array);
   const itemLink = document.getElementById('linkText1');
   itemLink.innerHTML = `${itemLink.innerHTML} (${count})`;
@@ -126,9 +126,9 @@ export function buildStructure(array, likesArray) {
     finalStructure.push([mainBoxDiv, commentBtn, 'btn', 'Comments']); // don't move this
   }
   htmlBuilder(finalStructure);
-}
+};
 
-export function buildModals(array, commentsArray) {
+export const buildModals = (array, commentsArray) => {
   const finalStructure = [];
   for (let i = 0; i < array.length; i += 1) {
     const mainBoxDiv = document.getElementById(`mainBoxDiv${i}`);
@@ -167,7 +167,7 @@ export function buildModals(array, commentsArray) {
       const commentsArray2 = [];
       const breedCats = ['abys', 'aege', 'abob', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
       const commentsApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments?item_id=';
-      setTimeout(() => {
+      setTimeout(async() => {
         getComments(commentsApi, breedCats, commentsArray2);
       }, 500);
       setTimeout(() => {
@@ -225,4 +225,4 @@ export function buildModals(array, commentsArray) {
     finalStructure.push([div8, commentBtn, 'btn btn-primary', 'Comment']);
   }
   htmlBuilder(finalStructure);
-}
+};
