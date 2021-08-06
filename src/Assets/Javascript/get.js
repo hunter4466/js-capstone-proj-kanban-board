@@ -11,12 +11,25 @@ export async function get(param) {
   return setVal;
 }
 
-export function getComments(api, array1, array2) {
-  array1.forEach(async (e) => {
-    await fetch(api + e)
+function getAllComments(api, e) {
+  return new Promise((resolve) => {
+    fetch(api + e)
       .then((response) => response.json())
-      .then((json) => {
-        array2.push({ id: e, value: json });
-      });
+      .then(resolve);
   });
+}
+
+async function getComments(param, e) {
+  const setVal = await getAllComments(param, e);
+  return setVal;
+}
+
+export function saveComments(api, array) {
+  const result = [];
+  let comment;
+  array.forEach((element) => {
+    comment = getComments(api, element);
+    comment.then((val) => result.push({ id: element, value: val }));
+  });
+  return result;
 }
