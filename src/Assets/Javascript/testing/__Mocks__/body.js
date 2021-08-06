@@ -1,10 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import simClearHtml from './__Mocks__/body';
-import countItems from '../itemsCounter';
 
-document.body.innerHTML = ` 
+export default function simClearHtml() {
+  document.body.innerHTML = ` 
     <ul class="header">
       <li class="hd_item">
         <img class="logo_img" id="logo_img" alt="logo" src="">
@@ -20,10 +19,4 @@ document.body.innerHTML = `
       </li>
     </ul>
   `;
-
-describe('Counters work good', () => {
-  test('Items Counter works', () => {
-    const toBuildArray = document.querySelectorAll('.hd_item');
-    expect(countItems(toBuildArray)).toEqual(4);
-  });
-});
+}
