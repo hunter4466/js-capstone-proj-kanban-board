@@ -19,8 +19,6 @@ function storageAvailable(type) {
 export function storeInfo(name, info) {
   if (storageAvailable('localStorage')) {
     localStorage.setItem(name, JSON.stringify(info));
-  } else {
-    return false;
   }
 }
 export function retrieveInfo(name) {

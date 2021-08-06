@@ -13,7 +13,7 @@ import { buildStructure, buildModals } from './Assets/Javascript/buildHTML';
 // ----------------------------Variables---------------------------
 
 const logoImg = document.getElementById('logo_img');
-const breedCats = ['abys', 'aege', 'abob', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
+const breedCats = ['abys', 'aege', 'aege', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
 const api = 'https://api.thecatapi.com/v1/images/search?breed_ids=';
 const likesApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/likes';
 const commentsApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments?item_id=';

@@ -1,7 +1,7 @@
 import { postLike, postComment } from './post';
 import { storeInfo, retrieveInfo } from './localStorage';
 import { getComments } from './get';
-import {countItems, countComments} from './itemsCounter'
+import { countItems, countComments } from './itemsCounter';
 
 const involvementApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments';
 
@@ -46,13 +46,13 @@ function htmlBuilder(obj) {
   }
 }
 
-function populateComments(comArr,Arr,finStr,parent,index){
-  let counter = 0
+function populateComments(comArr, Arr, finStr, parent, index) {
+  let counter = 0;
   for (let x = 0; x < comArr.length; x += 1) {
     if (Arr[index].breeds[0].id === comArr[x].id) {
-      counter = countComments(comArr[x].value)
+      counter = countComments(comArr[x].value);
       for (let y = 0; y < comArr[x].value.length; y += 1) {
-       /*  counter += 1;*/
+        /*  counter += 1; */
         const commentContainer = document.createElement('div');
         const commentValue = document.createElement('p');
         finStr.push([parent, commentContainer]);
@@ -63,20 +63,18 @@ function populateComments(comArr,Arr,finStr,parent,index){
       }
     }
   }
-  return counter
+  return counter;
 }
 
 export function buildStructure(array, likesArray) {
-  let count = countItems(array)
-  const itemLink = document.getElementById('linkText1')
-  itemLink.innerHTML = itemLink.innerHTML + ' ('+count+')'
+  const count = countItems(array);
+  const itemLink = document.getElementById('linkText1');
+  itemLink.innerHTML = `${itemLink.innerHTML} (${count})`;
   const finalStructure = [];
   const nameSelector = document.getElementById('class_container');
   const getLocalLikesPrev = retrieveInfo('likesStorage');
-
   for (let i = 0; i < array.length; i += 1) {
     const mainBoxDiv = document.createElement('div'); // don't move this
-
     const catsDiv = document.createElement('div');
     const catsImg = document.createElement('img');
     const likeArea = document.createElement('div');
@@ -93,7 +91,6 @@ export function buildStructure(array, likesArray) {
         likesCounter = likesArray[x].likes;
       }
     }
-    let likeHeartState = false;
     likeHeart.addEventListener('click', (event) => {
       event.preventDefault();
       const getLocalLikes = retrieveInfo('likesStorage');
@@ -101,7 +98,6 @@ export function buildStructure(array, likesArray) {
         const likesApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/likes';
         postLike(likesApi, array[i].breeds[0].id);
         likeHeart.className = 'bi bi-heart-fill ms-4';
-        likeHeartState = true;
         let likesStorage = {};
         if (localStorage.getItem('likesStorage')) {
           likesStorage = retrieveInfo('likesStorage');
@@ -110,27 +106,22 @@ export function buildStructure(array, likesArray) {
           storeInfo('likesStorage', initValue);
           likesStorage = retrieveInfo('likesStorage');
         }
-
         likesStorage[array[i].breeds[0].id] = true;
         storeInfo('likesStorage', likesStorage);
-        likesCount.innerHTML = `${parseInt(likesCount.id) + 1} likes`;
+        likesCount.innerHTML = `${Number.parseInt(likesCount.id, 10) + 1} likes`;
       }
     });
 
     finalStructure.push([nameSelector, mainBoxDiv, 'itemCat', null, `mainBoxDiv${i}`]); // don't move this
-
     finalStructure.push([mainBoxDiv, catsDiv, 'catsDiv']);
     finalStructure.push([catsDiv, catsImg]);
     finalStructure.push([mainBoxDiv, likeArea, 'd-flex justify-content-center']);
     finalStructure.push([likeArea, catName, null, array[i].breeds[0].name]);
-
     if (getLocalLikesPrev[array[i].breeds[0].id]) {
       finalStructure.push([likeArea, likeHeart, 'bi bi-heart-fill ms-4']);
-      likeHeartState = true;
     } else {
       finalStructure.push([likeArea, likeHeart, 'bi bi-heart ms-4']);
     }
-
     finalStructure.push([mainBoxDiv, likesCount, 'likesCount', `${likesCounter} likes`, `${likesCounter}`]);
     finalStructure.push([mainBoxDiv, commentBtn, 'btn', 'Comments']); // don't move this
   }
@@ -169,12 +160,10 @@ export function buildModals(array, commentsArray) {
     data4.setAttribute('href', array[i].breeds[0].wikipedia_url);
     const commentBtn = document.createElement('button');
 
-
-
     commentBtn.addEventListener(('click'), () => {
-      let commentContainer = document.getElementById(`comContainertId${i}`) 
+      const commentContainer = document.getElementById(`comContainertId${i}`);
       postComment(involvementApi, array[i].breeds[0].id, nameInput.value, commentInput.value);
-      let finalInnerStructure = []
+      const finalInnerStructure = [];
       const commentsArray2 = [];
       const breedCats = ['abys', 'aege', 'abob', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
       const commentsApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments?item_id=';
@@ -182,16 +171,18 @@ export function buildModals(array, commentsArray) {
         getComments(commentsApi, breedCats, commentsArray2);
       }, 500);
       setTimeout(() => {
-      let nCount = populateComments(commentsArray2,array,finalInnerStructure,commentContainer,i);
-      console.log(finalInnerStructure)
-      let commentTitle = document.getElementById(`commentId${i}`)
-      commentTitle.innerHTML = `Comment (${nCount})`
-      commentContainer.innerHTML = ""
-      htmlBuilder(finalInnerStructure);
+        const nCount = populateComments(commentsArray2,
+          array,
+          finalInnerStructure,
+          commentContainer,
+          i);
+        const commentTitle = document.getElementById(`commentId${i}`);
+        commentTitle.innerHTML = `Comment (${nCount})`;
+        commentContainer.innerHTML = '';
+        htmlBuilder(finalInnerStructure);
       }, 1000);
-      nameInput.value = ""
-      commentInput.value = ""
-      
+      nameInput.value = '';
+      commentInput.value = '';
     });
 
     const commentTitle2 = document.createElement('h5');
@@ -223,12 +214,10 @@ export function buildModals(array, commentsArray) {
     finalStructure.push([div5, div7, 'col']);
     finalStructure.push([div6, data3, null, `Weight: ${array[i].breeds[0].weight.metric} Kg`]);
     finalStructure.push([div7, data4, null, 'Wikipedia']);
-    let c = populateComments(commentsArray,array,finalStructure,div9,i);
-   
-    
-    
-    finalStructure.push([modalBody, commentTitle2, null, `Comment (${c})`,`commentId${i}`]);
-    finalStructure.push([modalBody, div9, null,null,`comContainertId${i}`]);
+    const c = populateComments(commentsArray, array, finalStructure, div9, i);
+
+    finalStructure.push([modalBody, commentTitle2, null, `Comment (${c})`, `commentId${i}`]);
+    finalStructure.push([modalBody, div9, null, null, `comContainertId${i}`]);
     finalStructure.push([modalBody, commentTitle, null, 'Add a comment']);
     finalStructure.push([modalBody, div8, 'form-group']);
     finalStructure.push([div8, nameInput, 'form-control']);
