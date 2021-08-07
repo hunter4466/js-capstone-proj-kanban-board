@@ -13,30 +13,27 @@ import { buildStructure, buildModals } from './Assets/Javascript/buildHTML';
 // ----------------------------Variables---------------------------
 
 const logoImg = document.getElementById('logo_img');
-const breedCats = ['abys', 'aege', 'aege', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
+const breedCats = ['abys', 'aege', 'abob', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
 const api = 'https://api.thecatapi.com/v1/images/search?breed_ids=';
 const likesApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/GTdCo4dMv7OdJ4VT5RJ0/likes';
 const commentsApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/GTdCo4dMv7OdJ4VT5RJ0/comments?item_id=';
 const toBuildArray = [];
-let commentsArray = [];
+
 // ----------------------------Assignations---------------------------
 
 logoImg.src = logo;
 
 // ----------------------------Callbacks---------------------------
-let likesArray;
-setTimeout(() => { get(likesApi).then((val) => { likesArray = val; }); }, 1000);
-fetchPics(api, breedCats, toBuildArray);
 
-commentsArray = saveComments(commentsApi, breedCats);
-/*
-setTimeout(() => {
-  commentsArray = saveComments(commentsApi, breedCats);
-}, 3000);*/
-setTimeout(() => {
-  buildStructure(toBuildArray, likesArray);
-  buildModals(toBuildArray, commentsArray);
-}, 4000);
+const loader = async () => {
+  await fetchPics(api, breedCats, toBuildArray);
+  const commentsArray = await saveComments(commentsApi, breedCats);
+  const likesArray = await get(likesApi);
+  setTimeout(() => {
+    buildStructure(toBuildArray, likesArray);
+    buildModals(toBuildArray, commentsArray);
+  }, 2000);
+};
+loader();
 
 // ----------------------------Event Listeners---------------------------
-
