@@ -1,0 +1,51 @@
+
+@mixin flexv {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flexh {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin box {
+  border-width: 1px;
+  padding: 5px;
+  width: fit-content;
+  height: fit-content;
+}
+
+@mixin styled-box ($flexd: column , $bcolor: transparent) {
+  @include box;
+
+  display: flex;
+  position: relative;
+  width: 100vw;
+  left: 0;
+  flex-direction: $flexd;
+  border-color: $bcolor;
+  padding: 10px;
+  max-height: 80vh;
+  height: 90px;
+}
+
+@mixin styled-box_foot ($flexd: column , $bcolor: transparent) {
+  @include box;
+
+  display: flex;
+  position: fixed;
+  width: 100vw;
+  left: 0;
+  bottom: 0;
+  flex-direction: $flexd;
+  border-color: $bcolor;
+  padding: 10px;
+  max-height: 80vh;
+  height: 90px;
+}
+
+@mixin head-items {
+  margin: 20px;
+  list-style: none;
+}
