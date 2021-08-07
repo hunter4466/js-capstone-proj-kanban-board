@@ -1,11 +1,10 @@
 import { postLike, postComment } from './post';
 import { storeInfo, retrieveInfo } from './localStorage';
-import { saveComments } from './get';
 import { countItems, countComments } from './itemsCounter';
 
 const involvementApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/GTdCo4dMv7OdJ4VT5RJ0/comments';
 
-const htmlBuilder = (obj) => {
+const htmlBuilder = async (obj) => {
   for (let i = 0; i < obj.length; i += 1) {
     if (obj[i].length === 2) {
       obj[i][0].appendChild(obj[i][1]);
@@ -46,8 +45,9 @@ const htmlBuilder = (obj) => {
   }
 };
 
-const populateComments = (comArr, Arr, finStr, parent, index) => {
+const populateComments = (comArr, Arr, index, bool, parent) => {
   let counter = 0;
+  const newArray = [];
   for (let x = 0; x < comArr.length; x += 1) {
     if (Arr[index].breeds[0].id === comArr[x].id) {
       counter = countComments(comArr[x].value);
@@ -55,18 +55,23 @@ const populateComments = (comArr, Arr, finStr, parent, index) => {
         /*  counter += 1; */
         const commentContainer = document.createElement('div');
         const commentValue = document.createElement('p');
-        finStr.push([parent, commentContainer]);
-        finStr.push([commentContainer, commentValue, null,
+
+        newArray.push([parent, commentContainer, `comment${x}`]);
+
+        newArray.push([commentContainer, commentValue, null,
           `${comArr[x].value[y].creation_date
           } ${comArr[x].value[y].username
           }: ${comArr[x].value[y].comment}`]);
       }
     }
   }
-  return counter;
+  if (bool) {
+    htmlBuilder(newArray);
+  }
+  return [counter, newArray];
 };
 
-export const buildStructure = (array, likesArray) => {
+export const buildStructure = async (array, likesArray) => {
   const count = countItems(array);
   const itemLink = document.getElementById('linkText1');
   itemLink.innerHTML = `${itemLink.innerHTML} (${count})`;
@@ -128,7 +133,7 @@ export const buildStructure = (array, likesArray) => {
   htmlBuilder(finalStructure);
 };
 
-export const buildModals = (array, commentsArray) => {
+export const buildModals = async (array, commentsArray) => {
   const finalStructure = [];
   for (let i = 0; i < array.length; i += 1) {
     const mainBoxDiv = document.getElementById(`mainBoxDiv${i}`);
@@ -152,6 +157,7 @@ export const buildModals = (array, commentsArray) => {
     const data3 = document.createElement('span');
     const data4 = document.createElement('a');
     const div8 = document.createElement('div');
+    const counterInput = document.createElement('input');
     const commentTitle = document.createElement('h5');
     const nameInput = document.createElement('input');
     nameInput.setAttribute('placeholder', 'Your name');
@@ -161,28 +167,27 @@ export const buildModals = (array, commentsArray) => {
     const commentBtn = document.createElement('button');
 
     commentBtn.addEventListener(('click'), () => {
-      const commentContainer = document.getElementById(`comContainertId${i}`);
-      postComment(involvementApi, array[i].breeds[0].id, nameInput.value, commentInput.value);
-      const finalInnerStructure = [];
-      let commentsArray2 = [];
-      const breedCats = ['abys', 'aege', 'abob', 'amau', 'amis', 'bamb', 'bslo', 'cspa', 'beng'];
-      const commentsApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/GTdCo4dMv7OdJ4VT5RJ0/comments?item_id=';
-      setTimeout(() => {
-        commentsArray2 = saveComments(commentsApi, breedCats);
-      }, 1500);
-      setTimeout(() => {
-        const nCount = populateComments(commentsArray2,
-          array,
-          finalInnerStructure,
-          commentContainer,
-          i);
+      const loader = async () => {
+        const commentContainer = document.getElementById(`comContainertId${i}`);
+        const commentCountVal = document.getElementById(`commentcountId${i}`);
+        postComment(involvementApi, array[i].breeds[0].id, nameInput.value, commentInput.value);
+
+        const today = new Date();
+
+        const date = `${today.getFullYear()}-${(`0${today.getMonth() + 1}`).slice(-2)}-${(`0${today.getDate()}`).slice(-2)}`;
+        const newDiv = document.createElement('div');
+        const newParraph = document.createElement('p');
+        commentContainer.appendChild(newDiv);
+        newParraph.innerHTML = `${date} ${nameInput.value}: ${commentInput.value}`;
+        newDiv.appendChild(newParraph);
+
+        nameInput.value = '';
+        commentInput.value = '';
         const commentTitle = document.getElementById(`commentId${i}`);
-        commentTitle.innerHTML = `Comment (${nCount})`;
-        commentContainer.innerHTML = '';
-        htmlBuilder(finalInnerStructure);
-      }, 2500);
-      nameInput.value = '';
-      commentInput.value = '';
+        commentTitle.innerHTML = `Comment (${Number.parseInt(commentCountVal.value, 10) + 1})`;
+        commentCountVal.value = Number.parseInt(commentCountVal.value, 10) + 1;
+      };
+      loader();
     });
 
     const commentTitle2 = document.createElement('h5');
@@ -194,7 +199,12 @@ export const buildModals = (array, commentsArray) => {
     btnClose.setAttribute('data-bs-dismiss', 'modal');
     btnClose.setAttribute('aria-label', 'Close');
     modalPicture.setAttribute('src', array[i].url);
-
+    counterInput.setAttribute('type', 'hidden');
+    const c = populateComments(commentsArray, array, i, false, div9);
+    c[1].forEach((e) => {
+      finalStructure.push(e);
+    });
+    counterInput.setAttribute('value', `${c[0]}`);
     finalStructure.push([mainBoxDiv, popUpCointainer, 'modal fade', null, `exampleModal${i + 1}`]);
     finalStructure.push([popUpCointainer, modalDialog, 'modal-dialog']);
     finalStructure.push([modalDialog, modalContent, 'modal-content']);
@@ -214,13 +224,13 @@ export const buildModals = (array, commentsArray) => {
     finalStructure.push([div5, div7, 'col']);
     finalStructure.push([div6, data3, null, `Weight: ${array[i].breeds[0].weight.metric} Kg`]);
     finalStructure.push([div7, data4, null, 'Wikipedia']);
-    const c = populateComments(commentsArray, array, finalStructure, div9, i);
 
-    finalStructure.push([modalBody, commentTitle2, null, `Comment (${c})`, `commentId${i}`]);
+    finalStructure.push([modalBody, commentTitle2, null, `Comment (${c[0]})`, `commentId${i}`]);
     finalStructure.push([modalBody, div9, null, null, `comContainertId${i}`]);
     finalStructure.push([modalBody, commentTitle, null, 'Add a comment']);
     finalStructure.push([modalBody, div8, 'form-group']);
     finalStructure.push([div8, nameInput, 'form-control']);
+    finalStructure.push([div8, counterInput, null, null, `commentcountId${i}`]);
     finalStructure.push([div8, commentInput, 'form-control']);
     finalStructure.push([div8, commentBtn, 'btn btn-primary', 'Comment']);
   }
