@@ -1,5 +1,4 @@
-function storageAvailable(type) {
-
+const storageAvailable = (type) => {
   let storage;
   try {
     storage = window[type];
@@ -15,20 +14,17 @@ function storageAvailable(type) {
                     || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')
                     && (storage && storage.length !== 0);
   }
-}
+};
 
-export function storeInfo(name, info) {
+export const storeInfo = (name, info) => {
   if (storageAvailable('localStorage')) {
     localStorage.setItem(name, JSON.stringify(info));
-  } else {
-    return false;
   }
-}
-export function retrieveInfo(name) {
+};
+export const retrieveInfo = (name) => {
   if (localStorage.getItem(name)) {
     const infoValue = JSON.parse(localStorage.getItem(name));
     return infoValue;
   }
   return false;
-
-}
+};

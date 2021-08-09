@@ -1,12 +1,13 @@
-@mixin winkKeyframes{
-    animation-name : winkies;
-    animation-duration:1s;
-    @keyframes winkies {
-       0%{ transform: rotate(5deg);}
-       20%{ transform: rotate(-5deg);}
-       40%{ transform: rotate(5deg);}
-       60%{ transform: rotate(-5deg);}
-       80%{ transform: rotate(5deg);}
-       100%{ transform: rotate(-5deg);}
-    }
+@mixin winkKeyframes {
+  animation-name: winkies;
+  animation-duration: 1s;
+
+  @keyframes winkies {
+    0% { transform: rotate(5deg); }
+    20% { transform: rotate(-5deg); }
+    40% { transform: rotate(5deg); }
+    60% { transform: rotate(-5deg); }
+    80% { transform: rotate(5deg); }
+    100% { transform: rotate(-5deg); }
+  }
 }

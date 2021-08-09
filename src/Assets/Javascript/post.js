@@ -1,6 +1,4 @@
-
-export async function postLike(iApi, id) {
-
+export const postLike = async (iApi, id) => {
   await fetch(iApi, {
     method: 'POST',
     body: JSON.stringify({
@@ -10,13 +8,10 @@ export async function postLike(iApi, id) {
       'Content-type': 'application/json; charset=UTF-8',
     },
   })
-    .then((response) => response.text())
-    .then((json) => {
-      console.log(json);
-    });
-}
+    .then((response) => response.text());
+};
 
-export async function postComment(iApi, id, user, comment) {
+export const postComment = async (iApi, id, user, comment) => {
   await fetch(iApi, {
     method: 'POST',
     body: JSON.stringify({
@@ -28,9 +23,5 @@ export async function postComment(iApi, id, user, comment) {
       'Content-type': 'application/json; charset=UTF-8',
     },
   })
-    .then((response) => response.text())
-    .then((json) => {
-      console.log(json);
-    });
-}
-
+    .then((response) => response.text());
+};

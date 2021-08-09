@@ -1,10 +1,10 @@
-
 import { postLike, postComment } from './post';
 import { storeInfo, retrieveInfo } from './localStorage';
+import { countItems, countComments } from './itemsCounter';
 
-const involvementApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/comments';
+const involvementApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/GTdCo4dMv7OdJ4VT5RJ0/comments';
 
-function htmlBuilder(obj) {
+const htmlBuilder = async (obj) => {
   for (let i = 0; i < obj.length; i += 1) {
     if (obj[i].length === 2) {
       obj[i][0].appendChild(obj[i][1]);
@@ -43,19 +43,43 @@ function htmlBuilder(obj) {
       }
     }
   }
-}
+};
 
-export function buildStructure(array, likesArray) {
+const populateComments = (comArr, Arr, index, bool, parent) => {
+  let counter = 0;
+  const newArray = [];
+  for (let x = 0; x < comArr.length; x += 1) {
+    if (Arr[index].breeds[0].id === comArr[x].id) {
+      counter = countComments(comArr[x].value);
+      for (let y = 0; y < comArr[x].value.length; y += 1) {
+        /*  counter += 1; */
+        const commentContainer = document.createElement('div');
+        const commentValue = document.createElement('p');
+
+        newArray.push([parent, commentContainer, `comment${x}`]);
+
+        newArray.push([commentContainer, commentValue, null,
+          `${comArr[x].value[y].creation_date
+          } ${comArr[x].value[y].username
+          }: ${comArr[x].value[y].comment}`]);
+      }
+    }
+  }
+  if (bool) {
+    htmlBuilder(newArray);
+  }
+  return [counter, newArray];
+};
+
+export const buildStructure = async (array, likesArray) => {
+  const count = countItems(array);
+  const itemLink = document.getElementById('linkText1');
+  itemLink.innerHTML = `${itemLink.innerHTML} (${count})`;
   const finalStructure = [];
   const nameSelector = document.getElementById('class_container');
-
-  console.log(likesArray)
-  let getLocalLikesPrev = retrieveInfo('likesStorage')
-
+  const getLocalLikesPrev = retrieveInfo('likesStorage');
   for (let i = 0; i < array.length; i += 1) {
-    
-    const mainBoxDiv = document.createElement('div');  //don't move this
-
+    const mainBoxDiv = document.createElement('div'); // don't move this
     const catsDiv = document.createElement('div');
     const catsImg = document.createElement('img');
     const likeArea = document.createElement('div');
@@ -66,62 +90,50 @@ export function buildStructure(array, likesArray) {
     commentBtn.setAttribute('data-bs-toggle', 'modal');
     commentBtn.setAttribute('data-bs-target', `#exampleModal${i + 1}`);
     catsImg.setAttribute('src', `${array[i].url}`);
-
     let likesCounter = 0;
-    for(let x = 0;x<likesArray.length;x+=1) {
-      if(array[i].breeds[0].id === likesArray[x].item_id ){
-        likesCounter = likesArray[x].likes
+    for (let x = 0; x < likesArray.length; x += 1) {
+      if (array[i].breeds[0].id === likesArray[x].item_id) {
+        likesCounter = likesArray[x].likes;
       }
-    };
-
-    let likeHeartState = false
-    likeHeart.addEventListener('click',(event)=>{
+    }
+    likeHeart.addEventListener('click', (event) => {
       event.preventDefault();
-      let getLocalLikes = retrieveInfo('likesStorage')
-      if(!getLocalLikes[array[i].breeds[0].id]){
-        const likesApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/LnQtP7rZrNpR2zDEqCBJ/likes';
-        postLike(likesApi,array[i].breeds[0].id);
-        likeHeart.className = 'bi bi-heart-fill ms-4'
-        likeHeartState = true;
-        let likesStorage = {}
-        if(localStorage.getItem('likesStorage')){
-          likesStorage = retrieveInfo('likesStorage')
-        }else{
-          let initValue = {'init':'initiated'}
-          storeInfo('likesStorage',initValue)
-          likesStorage = retrieveInfo('likesStorage')
+      const getLocalLikes = retrieveInfo('likesStorage');
+      if (!getLocalLikes[array[i].breeds[0].id]) {
+        const likesApi = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/GTdCo4dMv7OdJ4VT5RJ0/likes';
+        postLike(likesApi, array[i].breeds[0].id);
+        likeHeart.className = 'bi bi-heart-fill ms-4';
+        let likesStorage = {};
+        if (localStorage.getItem('likesStorage')) {
+          likesStorage = retrieveInfo('likesStorage');
+        } else {
+          const initValue = { init: 'initiated' };
+          storeInfo('likesStorage', initValue);
+          likesStorage = retrieveInfo('likesStorage');
         }
-        
         likesStorage[array[i].breeds[0].id] = true;
-        storeInfo('likesStorage',likesStorage)
-        likesCount.innerHTML = parseInt(likesCount.id)+1+" likes"
+        storeInfo('likesStorage', likesStorage);
+        likesCount.innerHTML = `${Number.parseInt(likesCount.id, 10) + 1} likes`;
       }
-    })
+    });
 
-    finalStructure.push([nameSelector, mainBoxDiv, 'itemCat',null,`mainBoxDiv${i}`]); //don't move this
-
+    finalStructure.push([nameSelector, mainBoxDiv, 'itemCat', null, `mainBoxDiv${i}`]); // don't move this
     finalStructure.push([mainBoxDiv, catsDiv, 'catsDiv']);
     finalStructure.push([catsDiv, catsImg]);
     finalStructure.push([mainBoxDiv, likeArea, 'd-flex justify-content-center']);
     finalStructure.push([likeArea, catName, null, array[i].breeds[0].name]);
-
-    if(getLocalLikesPrev[array[i].breeds[0].id]){
+    if (getLocalLikesPrev[array[i].breeds[0].id]) {
       finalStructure.push([likeArea, likeHeart, 'bi bi-heart-fill ms-4']);
-      likeHeartState = true
-    }else{
+    } else {
       finalStructure.push([likeArea, likeHeart, 'bi bi-heart ms-4']);
     }
-
-    finalStructure.push([mainBoxDiv, likesCount, 'likesCount',`${likesCounter} likes`,`${likesCounter}`]);
-    finalStructure.push([mainBoxDiv, commentBtn, 'btn', 'Comments']); //don't move this
-
-
+    finalStructure.push([mainBoxDiv, likesCount, 'likesCount', `${likesCounter} likes`, `${likesCounter}`]);
+    finalStructure.push([mainBoxDiv, commentBtn, 'btn', 'Comments']); // don't move this
   }
   htmlBuilder(finalStructure);
-}
+};
 
-
-export function buildModals(array) {
+export const buildModals = async (array, commentsArray) => {
   const finalStructure = [];
   for (let i = 0; i < array.length; i += 1) {
     const mainBoxDiv = document.getElementById(`mainBoxDiv${i}`);
@@ -145,6 +157,7 @@ export function buildModals(array) {
     const data3 = document.createElement('span');
     const data4 = document.createElement('a');
     const div8 = document.createElement('div');
+    const counterInput = document.createElement('input');
     const commentTitle = document.createElement('h5');
     const nameInput = document.createElement('input');
     nameInput.setAttribute('placeholder', 'Your name');
@@ -152,19 +165,46 @@ export function buildModals(array) {
     commentInput.setAttribute('placeholder', 'Your insights');
     data4.setAttribute('href', array[i].breeds[0].wikipedia_url);
     const commentBtn = document.createElement('button');
+
     commentBtn.addEventListener(('click'), () => {
-      postComment(involvementApi, array[i].breeds[0].id, nameInput.value, commentInput.value);
+      const loader = async () => {
+        const commentContainer = document.getElementById(`comContainertId${i}`);
+        const commentCountVal = document.getElementById(`commentcountId${i}`);
+        postComment(involvementApi, array[i].breeds[0].id, nameInput.value, commentInput.value);
+
+        const today = new Date();
+
+        const date = `${today.getFullYear()}-${(`0${today.getMonth() + 1}`).slice(-2)}-${(`0${today.getDate()}`).slice(-2)}`;
+        const newDiv = document.createElement('div');
+        const newParraph = document.createElement('p');
+        commentContainer.appendChild(newDiv);
+        newParraph.innerHTML = `${date} ${nameInput.value}: ${commentInput.value}`;
+        newDiv.appendChild(newParraph);
+
+        nameInput.value = '';
+        commentInput.value = '';
+        const commentTitle = document.getElementById(`commentId${i}`);
+        commentTitle.innerHTML = `Comment (${Number.parseInt(commentCountVal.value, 10) + 1})`;
+        commentCountVal.value = Number.parseInt(commentCountVal.value, 10) + 1;
+      };
+      loader();
     });
+
+    const commentTitle2 = document.createElement('h5');
+    const div9 = document.createElement('div');
     popUpCointainer.setAttribute('tabindex', '-1');
     popUpCointainer.setAttribute('aria-labelledby', 'exampleModalLabel');
     popUpCointainer.setAttribute('aria-hidden', 'truel');
     btnClose.setAttribute('type', 'button');
     btnClose.setAttribute('data-bs-dismiss', 'modal');
     btnClose.setAttribute('aria-label', 'Close');
-
     modalPicture.setAttribute('src', array[i].url);
-
-
+    counterInput.setAttribute('type', 'hidden');
+    const c = populateComments(commentsArray, array, i, false, div9);
+    c[1].forEach((e) => {
+      finalStructure.push(e);
+    });
+    counterInput.setAttribute('value', `${c[0]}`);
     finalStructure.push([mainBoxDiv, popUpCointainer, 'modal fade', null, `exampleModal${i + 1}`]);
     finalStructure.push([popUpCointainer, modalDialog, 'modal-dialog']);
     finalStructure.push([modalDialog, modalContent, 'modal-content']);
@@ -184,11 +224,15 @@ export function buildModals(array) {
     finalStructure.push([div5, div7, 'col']);
     finalStructure.push([div6, data3, null, `Weight: ${array[i].breeds[0].weight.metric} Kg`]);
     finalStructure.push([div7, data4, null, 'Wikipedia']);
+
+    finalStructure.push([modalBody, commentTitle2, null, `Comment (${c[0]})`, `commentId${i}`]);
+    finalStructure.push([modalBody, div9, null, null, `comContainertId${i}`]);
     finalStructure.push([modalBody, commentTitle, null, 'Add a comment']);
     finalStructure.push([modalBody, div8, 'form-group']);
     finalStructure.push([div8, nameInput, 'form-control']);
+    finalStructure.push([div8, counterInput, null, null, `commentcountId${i}`]);
     finalStructure.push([div8, commentInput, 'form-control']);
     finalStructure.push([div8, commentBtn, 'btn btn-primary', 'Comment']);
   }
   htmlBuilder(finalStructure);
-}
+};

@@ -1,4 +1,4 @@
-export default function fetchPics(api, array1, array2) {
+const fetchPics = (api, array1, array2) => {
   array1.forEach(async (e) => {
     await fetch(api + e)
       .then((response) => response.json())
@@ -6,5 +6,5 @@ export default function fetchPics(api, array1, array2) {
         array2.push(json[0]);
       });
   });
-}
-
+};
+export default fetchPics;

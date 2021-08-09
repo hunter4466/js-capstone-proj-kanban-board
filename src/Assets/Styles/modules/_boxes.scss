@@ -18,10 +18,11 @@
 
 @mixin styled-box ($flexd: column , $bcolor: transparent) {
   @include box;
+
   display: flex;
   position: relative;
   width: 100vw;
-  left: 0vw;
+  left: 0;
   flex-direction: $flexd;
   border-color: $bcolor;
   padding: 10px;
@@ -31,11 +32,12 @@
 
 @mixin styled-box_foot ($flexd: column , $bcolor: transparent) {
   @include box;
+
   display: flex;
   position: fixed;
   width: 100vw;
-  left: 0vw;
-  bottom:0vh;
+  left: 0;
+  bottom: 0;
   flex-direction: $flexd;
   border-color: $bcolor;
   padding: 10px;
